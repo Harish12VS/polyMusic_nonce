@@ -1,0 +1,11 @@
+.team {
+  margin: 16px 16px;
+  color: white !important;
+}
+.teamSpan {
+  color: linear-gradient(214.02deg, #b75cff 6.04%, #671ae4 92.95%) !important;
+}
+.walletBtn {
+  width: 37%;
+  margin: 28px 45%;
+}
