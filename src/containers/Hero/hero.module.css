@@ -1,0 +1,16 @@
+.hero {
+  padding-top: 70px;
+  padding-left: 32px;
+}
+.left {
+  color: white;
+  margin-top: 88px;
+  padding-left: 33px;
+}
+.catchPhrase {
+  line-height: 1.3;
+}
+.right {
+  margin-left: 100px;
+  margin-top: 16px;
+}
