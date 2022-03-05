@@ -9,13 +9,13 @@ function App() {
     <ChakraProvider>
       <Box
         w="100%"
-        h="100vh"
         bgGradient="linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%)"
       >
-        <Toolbar></Toolbar>
-        {/* <div className="App">Web3</div> */}
-        <Hero></Hero>
-        <Content></Content>
+        <Box maxW="1197px" w="100%" h="100vh" mx="auto">
+          <Toolbar></Toolbar>
+          <Hero></Hero>
+          <Content></Content>
+        </Box>
       </Box>
     </ChakraProvider>
   );
