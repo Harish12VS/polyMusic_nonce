@@ -22,7 +22,7 @@ const Toolbar = () => {
           borderRadius="md"
           bgGradient="linear-gradient(214.02deg, #B75CFF 6.04%, #671AE4 92.95%)"
         >
-          Select Wallet
+          Choose Wallet
         </Box>
       </SimpleGrid>
     </div>
