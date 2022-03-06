@@ -10,7 +10,7 @@ import {
 import { FiPlay } from "react-icons/fi";
 import CardOne from "../../assets/card-one.png";
 
-const MusicCard = ({ title, username }) => {
+const MusicCard = ({ title, username, buyNft }) => {
   return (
     <Stack
       align="center"
@@ -98,6 +98,7 @@ const MusicCard = ({ title, username }) => {
             rounded={"full"}
             fontWeight="bold"
             letterSpacing="tighter"
+            onClick={buyNft}
             _hover={{
               bg: "linear-gradient(99.74deg,#9900ff 5.23%,#2082e9 92.7%)"
             }}

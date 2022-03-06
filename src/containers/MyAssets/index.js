@@ -14,11 +14,10 @@ export default function MyAssets() {
   useEffect(() => {
     loadNFTs();
   }, []);
+
+
   async function loadNFTs() {
-    const web3Modal = new Web3Modal({
-      network: "mainnet",
-      cacheProvider: true
-    });
+    const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
@@ -49,6 +48,8 @@ export default function MyAssets() {
     setNfts(items);
     setLoadingState(false);
   }
+
+
   if (!loadingState && !nfts.length)
     return <h1 className="py-10 px-20 text-3xl">No assets owned</h1>;
   return (
