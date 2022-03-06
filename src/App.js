@@ -3,7 +3,7 @@ import { theme } from "./config";
 import { Routes, Route } from "react-router-dom";
 import "@fontsource/poppins";
 import { Box } from "@chakra-ui/react";
-import { Home } from "./containers";
+import { Home, CreateItem, MyAssets, Collections } from "./containers";
 import { Navbar } from "./components";
 
 function App() {
@@ -14,6 +14,9 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/create-item" element={<CreateItem />} />
+            <Route path="/my-assets" element={<MyAssets />} />
+            <Route path="/collections" element={<Collections />} />
           </Routes>
         </Box>
       </Box>

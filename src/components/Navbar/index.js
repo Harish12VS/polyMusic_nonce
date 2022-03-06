@@ -8,6 +8,7 @@ import {
   Button,
   useDisclosure
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 
 const Navbar = (props) => {
@@ -66,9 +67,12 @@ const Navbar = (props) => {
         flexGrow={1}
         mt={{ base: 4, md: 0 }}
         justify={{ base: "start", md: "end" }}
-        mr={{ base: 0, md: 6 }}
+        mr={{ base: 0, md: 8 }}
+        spacing={6}
       >
-        <Text>Collections</Text>
+        <Link to="/create-item">Create Item</Link>
+        <Link to="/my-assets">My Assets</Link>
+        <Link to="/collections">Collections</Link>
       </Stack>
 
       <Box

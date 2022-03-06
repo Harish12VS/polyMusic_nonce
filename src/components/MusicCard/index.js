@@ -99,7 +99,6 @@ const MusicCard = ({ title, username }) => {
             fontWeight="bold"
             letterSpacing="tighter"
             _hover={{
-              // bg: "linear-gradient(99.74deg, #BD00FF 5.23%, #06DBAC 92.7%)"
               bg: "linear-gradient(99.74deg,#9900ff 5.23%,#2082e9 92.7%)"
             }}
             minW="100px"
