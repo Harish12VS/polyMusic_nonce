@@ -50,7 +50,7 @@ export default function Collections() {
       })
     );
     setNFTs(items);
-    setLoading(false);
+    setLoading(true);
   }
   async function buyNft(nft) {
     const web3Modal = new Web3Modal();

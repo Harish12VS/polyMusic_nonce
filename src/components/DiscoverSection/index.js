@@ -46,11 +46,12 @@ export default function DiscoverSection() {
           name: meta.data.name,
           description: meta.data.description
         };
+        console.log('item: ' + tokenUri.description)
         return item;
       })
     );
     setNFTs(items);
-    setLoading(false);
+    setLoading(true);
   }
   async function buyNft(nft) {
     const web3Modal = new Web3Modal();
@@ -92,7 +93,7 @@ export default function DiscoverSection() {
         rowGap={28}
       >
         {NFTs.map((nft, ind) => (
-          <MusicCard key={ind} title={nft.name} username={nft.owner} />
+          <MusicCard key={ind} title={nft.name} username={nft.owner} buyNft={() => buyNft(nft)} />
         ))}
         {/* 
         <MusicCard title={"Heart & Sol"} username="@arvind" />
