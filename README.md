@@ -1,15 +1,19 @@
-# Basic Sample Hardhat Project
+# Poly Music
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+Description:
 
-Try running some of the following tasks:
+This is a NFT marketplace exclusively for music powered by Polygon. In this project, a user could connect his/her web3 wallet(eg. MetaMask) to the dApp we created. After linking the wallet, the user could mint his/her own music pieces as an NFT with some creative title and description. Once the NFT is minted, it is listed in the home page. Any other user could buy the NFT using $MATIC and get the NFT transfered to his/her wallet. Now the bought NFT could be viewed in the "My Assets" page once the wallet gets connected. This is the initial version of the app which is to be built big.   
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+Development Tools Used:
+
+HTML & CSS
+Chakra UI
+React
+HardHat
+Ethers
+Chai
+OpenZeppelin
+IPFS
+Infura
+Vercel
+Polygon Testnet(Mumbai)
