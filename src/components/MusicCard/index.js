@@ -7,17 +7,51 @@ import {
   Button,
   ButtonGroup
 } from "@chakra-ui/react";
-import { FiPlay } from "react-icons/fi";
+import { useState } from "react";
+import { FiPause, FiPlay } from "react-icons/fi";
 import CardOne from "../../assets/card-one.png";
 
-const MusicCard = ({ title, username, buyNft }) => {
+const MusicCard = ({ nft, buyNft }) => {
+
+  const [play, setPlay] = useState(false);
+  var audio = new Audio(nft.image);
+
+  const playMusic = () => {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+    // setPlay(true);
+  }
+
+
+  const musicButton = (nft) => {
+    if (!play) {
+      return (<Button
+        rightIcon={<FiPlay />}
+        variant="outline"
+        rounded={"full"}
+        fontSize="sm"
+        _hover={{
+          color: "#9900ff",
+          borderColor: "#9900ff"
+        }}
+        onClick={() => playMusic(nft.image)}
+      >
+        Play Now
+      </Button>
+      )
+    }
+  }
+
   return (
     <Stack
       align="center"
       justify="space-between"
       color={"white"}
       border="1.5px solid white"
-      h="400px"
+      h="450px"
       w="300px"
       position="relative"
       as="flex"
@@ -32,7 +66,7 @@ const MusicCard = ({ title, username, buyNft }) => {
       >
         <Image src={CardOne} w="100%" maxH="100%" />
       </Box>
-      <Stack p={6} w="100%" spacing={4}>
+      <Stack p={6} w="100%" spacing={8}>
         <SimpleGrid columns={2} justifyContent="space-between" gap={6}>
           <Box spacing={0}>
             <Text
@@ -42,7 +76,7 @@ const MusicCard = ({ title, username, buyNft }) => {
               color="whiteAlpha.600"
               fontSize="sm"
             >
-              {username}
+              {nft.owner}
             </Text>
             <Text
               as="h5"
@@ -50,9 +84,9 @@ const MusicCard = ({ title, username, buyNft }) => {
               fontSize="lg"
               letterSpacing="tighter"
               isTruncated
-              title={title}
+              title={nft.name}
             >
-              {title}
+              {nft.name}
             </Text>
           </Box>
           <Box spacing={0} textAlign="right">
@@ -71,26 +105,19 @@ const MusicCard = ({ title, username, buyNft }) => {
               fontSize="lg"
               letterSpacing="tighter"
               isTruncated
-              title={title}
+              title={nft.price}
             >
-              {title}
+              {nft.price} MATIC
             </Text>
           </Box>
         </SimpleGrid>
 
         <ButtonGroup justifyContent="space-between" as="flex">
-          <Button
-            rightIcon={<FiPlay />}
-            variant="outline"
-            rounded={"full"}
-            fontSize="sm"
-            _hover={{
-              color: "#9900ff",
-              borderColor: "#9900ff"
-            }}
-          >
-            Play Now
-          </Button>
+
+          {
+            musicButton(nft)
+          }
+
           <Button
             // bg="linear-gradient(99.74deg, #06DBAC 5.23%, #BD00FF 92.7%)"
             bg="linear-gradient(99.74deg,#2082e9 5.23%,#9900ff 92.7%)"

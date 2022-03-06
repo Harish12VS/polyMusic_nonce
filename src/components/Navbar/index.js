@@ -19,8 +19,12 @@ import Market from "../../contracts/NFTMarket.json";
 import NFT from "../../contracts/NFT.json";
 import { Footer, MusicCard } from "../../components";
 import { SimpleGrid } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = (props) => {
+
+  const navigate = useNavigate();
+
   let connectedAddress = "";
   const [address, setAddress] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -125,6 +129,8 @@ const Navbar = (props) => {
           bg="linear-gradient(214.02deg, #671AE4 6.04%, #B75CFF 92.95%)"
           bgClip="text"
           position="relative"
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
         >
           Poly Music
           <Text
@@ -173,7 +179,7 @@ const Navbar = (props) => {
       >
         {showButton()}
       </Box>
-    </Flex>
+    </Flex >
   );
 };
 

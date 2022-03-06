@@ -93,7 +93,7 @@ export default function DiscoverSection() {
         rowGap={28}
       >
         {NFTs.map((nft, ind) => (
-          <MusicCard key={ind} title={nft.name} username={nft.owner} buyNft={() => buyNft(nft)} />
+          <MusicCard key={ind} nft={nft} buyNft={() => buyNft(nft)} />
         ))}
         {/* 
         <MusicCard title={"Heart & Sol"} username="@arvind" />

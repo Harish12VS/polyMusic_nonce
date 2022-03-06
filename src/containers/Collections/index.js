@@ -95,7 +95,7 @@ export default function Collections() {
           py={12}
         >
           {NFTs.map((nft, ind) => (
-            <MusicCard key={ind} title={nft.name} username={nft.owner} />
+            <MusicCard key={ind} nft={nft} buyNft={() => buyNft(nft)} />
           ))}
 
           {/* <MusicCard title={"Heart & Sol"} username="@arvind" />

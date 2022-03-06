@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { Footer } from "../../components";
 
+
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
 export default function CreateItem() {
@@ -34,7 +35,7 @@ export default function CreateItem() {
     description: "",
   });
   const [resize, setResize] = useState("none");
-  const router = useNavigate();
+  const navigate = useNavigate();
   const toast = useToast();
 
   async function onChange(e) {
@@ -101,13 +102,13 @@ export default function CreateItem() {
       value: listingPrice,
     });
     await transaction.wait();
-    router.push("/my-assets");
+    navigate("/");
   }
 
   const showToast = () => {
     console.log(error);
     toast({
-      title: "Error",
+      title: "Oops! Something went wrong.",
       description: error,
       status: "error",
       duration: 9000,
