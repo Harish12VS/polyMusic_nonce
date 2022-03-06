@@ -190,7 +190,7 @@ export default function CreateItem() {
 
                 <FormControl>
                   <FormLabel fontWeight="bold" letterSpacing="tight">
-                    Asset Price in Eth
+                    Asset Price in Matic
                   </FormLabel>
                   <Input
                     bg="black"
@@ -201,7 +201,7 @@ export default function CreateItem() {
                     _placeholder={{
                       color: "gray.500",
                     }}
-                    placeholder="Asset Price in Eth"
+                    placeholder="Asset Price in Matic"
                     className="mt-2 border rounded p-4"
                     onChange={(e) =>
                       updateFormInput({ ...formInput, price: e.target.value })

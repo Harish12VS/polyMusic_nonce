@@ -24,11 +24,11 @@ const Hero = () => {
             Create, Sell &<br />
             Collect Your Own
             <br />
-            Creative NFT{" "}
+            Music NFT{" "}
           </Heading>
           <Text fontWeight="medium">
-            Poly Music NFT is the world's first and largest NFT marketplace
-            based on Polygon Network.
+            Poly Music NFT marketplace is a great music NFT marketplace
+            powered by Polygon Network.
           </Text>
         </Stack>
       </GridItem>

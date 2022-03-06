@@ -23,7 +23,7 @@ export default function DiscoverSection() {
   }, []);
 
   async function loadNFTs() {
-    const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint);
+    const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today");
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider);
     const marketContract = new ethers.Contract(
       nftmarketaddress,
@@ -85,7 +85,7 @@ export default function DiscoverSection() {
         mb={28}
         textAlign="center"
       >
-        Discover Polygons Music NFTs
+        Discover Polygon's Music NFTs
       </Heading>
       <SimpleGrid
         gridTemplateColumns="repeat(3,300px)"
