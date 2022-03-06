@@ -47,25 +47,25 @@ export default function FeatureSection() {
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
         <Feature
           icon={<Icon as={FaWallet} w={8} h={8} />}
-          title={"Lifetime Support"}
+          title={"Set up your Wallet"}
           text={
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+            "Once you’ve set up your wallet of choice, connect to your wallet by clicking the connect wallet in the top right corner."
           }
           gradient="linear-gradient(207.67deg, #23D3A4 3.43%, #5B49CF 104.7%)"
         />
         <Feature
           icon={<Icon as={FaTh} w={8} h={8} fontWeight="light" />}
-          title={"Unlimited Donations"}
+          title={"Create your Collection"}
           text={
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+            "Click Create and set up your collection. Add title, a description, image and obviously your music."
           }
           gradient="linear-gradient(63.88deg, #739EEC 29.38%, #FF8C9F 86.63%)"
         />
         <Feature
           icon={<Icon as={FaImage} w={8} h={8} fontWeight="light" />}
-          title={"Instant Delivery"}
+          title={"Add your NFTs"}
           text={
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+            "Upload your creative music, add a title and description, and customize your NFTs with properties, stats"
           }
           gradient="linear-gradient(66.27deg, #FE6F2D -10.45%, #FDCE38 76.78%)"
         />

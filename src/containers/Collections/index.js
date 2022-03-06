@@ -1,5 +1,5 @@
 import { Box, SimpleGrid, Heading } from "@chakra-ui/react";
-import { MusicCard } from "../index";
+import { Footer, MusicCard } from "../../components";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -14,7 +14,7 @@ if (process.env.REACT_PUBLIC_WORKSPACE_URL) {
   rpcEndpoint = process.env.REACT_PUBLIC_WORKSPACE_URL;
 }
 
-export default function DiscoverSection() {
+export default function Collections() {
   const [NFTs, setNFTs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +46,6 @@ export default function DiscoverSection() {
           name: meta.data.name,
           description: meta.data.description
         };
-        console.log('item: ' + tokenUri.description)
         return item;
       })
     );
@@ -76,33 +75,38 @@ export default function DiscoverSection() {
     return <h1 className="py-10 px-20 text-3xl">No NFTs listed</h1>;
 
   return (
-    <Box py={32}>
-      <Heading
-        as="h1"
-        fontSize="5xl"
-        fontWeight={"bold"}
-        letterSpacing="tight"
-        mb={28}
-        textAlign="center"
-      >
-        Discover Polygon's Music NFTs
-      </Heading>
-      <SimpleGrid
-        gridTemplateColumns="repeat(3,300px)"
-        justifyContent="space-between"
-        rowGap={28}
-      >
-        {NFTs.map((nft, ind) => (
-          <MusicCard key={ind} nft={nft} buyNft={() => buyNft(nft)} />
-        ))}
-        {/* 
-        <MusicCard title={"Heart & Sol"} username="@arvind" />
-        <MusicCard title={"Yaaro athu"} username="@arif" />
-        <MusicCard title={"Hey Sinamika"} username="@harish" />
-        <MusicCard title={"Uyirin Uyirae"} username="@arvind" />
-        <MusicCard title={"Hello beats"} username="@arif" />
-        <MusicCard title={"Lofi beats"} username="@harish" /> */}
-      </SimpleGrid>
-    </Box>
+    <>
+      {" "}
+      <Box py={24}>
+        <Heading
+          as="h1"
+          fontSize="5xl"
+          fontWeight={"bold"}
+          letterSpacing="tight"
+          mb={28}
+          textAlign="center"
+        >
+          Collections
+        </Heading>
+        <SimpleGrid
+          gridTemplateColumns="repeat(3,300px)"
+          justifyContent="space-between"
+          rowGap={28}
+          py={12}
+        >
+          {NFTs.map((nft, ind) => (
+            <MusicCard key={ind} nft={nft} buyNft={() => buyNft(nft)} />
+          ))}
+
+          {/* <MusicCard title={"Heart & Sol"} username="@arvind" />
+          <MusicCard title={"Yaaro athu"} username="@arif" />
+          <MusicCard title={"Hey Sinamika"} username="@harish" />
+          <MusicCard title={"Uyirin Uyirae"} username="@arvind" />
+          <MusicCard title={"Hello beats"} username="@arif" />
+          <MusicCard title={"Lofi beats"} username="@harish" /> */}
+        </SimpleGrid>
+      </Box>
+      <Footer />
+    </>
   );
 }

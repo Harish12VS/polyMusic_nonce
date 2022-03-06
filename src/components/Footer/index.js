@@ -10,7 +10,8 @@ const Footer = () => {
         fontWeight="medium"
         fontSize="sm"
       >
-        © {new Date().getFullYear()} Music NFT. All rights reserved
+        © {new Date().getFullYear()} Poly Music NFT Marketplace. All rights
+        reserved
       </Text>
     </Box>
   );

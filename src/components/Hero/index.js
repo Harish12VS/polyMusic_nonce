@@ -17,17 +17,18 @@ const Hero = () => {
             fontWeight="black"
             lineHeight="1.2"
             letterSpacing="tight"
-            bg="linear-gradient(99.74deg, #06DBAC 5.23%, #BD00FF 92.7%)"
+            // bg="linear-gradient(99.74deg, #06DBAC 5.23%, #BD00FF 92.7%)"
+            bg="linear-gradient(99.74deg,#2082e9 5.23%,#9900ff 92.7%)"
             bgClip="text"
           >
             Create, Sell &<br />
             Collect Your Own
             <br />
-            Creative NFT{" "}
+            Music NFT{" "}
           </Heading>
           <Text fontWeight="medium">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Aspernatur, facilis? Recusandae
+            Poly Music NFT marketplace is a great music NFT marketplace
+            powered by Polygon Network.
           </Text>
         </Stack>
       </GridItem>
