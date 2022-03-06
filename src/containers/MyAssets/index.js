@@ -15,6 +15,24 @@ export default function MyAssets() {
     loadNFTs();
   }, []);
 
+  async function buyNft(nft) {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer);
+
+    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+    const transaction = await contract.createMarketSale(
+      nftaddress,
+      nft.itemId,
+      {
+        value: price
+      }
+    );
+    await transaction.wait();
+    loadNFTs();
+  }
 
   async function loadNFTs() {
     const web3Modal = new Web3Modal();
@@ -72,12 +90,8 @@ export default function MyAssets() {
           py={12}
         >
           {nfts.map((nft, i) => (
-            <MusicCard
-              key={i}
-              title={nft.name}
-              price={nft.price}
-              username={nft.author}
-            />
+            <MusicCard key={i} nft={nft} buyNft={() => buyNft(nft)} />
+
           ))}
           {/* <MusicCard title={"Heart & Sol"} username="@arvind" />
           <MusicCard title={"Yaaro athu"} username="@arif" />
