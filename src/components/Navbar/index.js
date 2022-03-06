@@ -31,8 +31,26 @@ const Navbar = (props) => {
           letterSpacing={"tighter"}
           bg="linear-gradient(214.02deg, #671AE4 6.04%, #B75CFF 92.95%)"
           bgClip="text"
+          position="relative"
         >
-          Music NFT
+          Poly Music
+          <Text
+            left="105%"
+            top={"50%"}
+            transform="translateY(-50%)"
+            position="absolute"
+            fontWeight="bold"
+            letterSpacing="tight"
+            p={2}
+            color="white"
+            fontSize="xx-small"
+            bg="linear-gradient(99.74deg,#2082e9 5.23%,#9900ff 92.7%)"
+            rounded="lg"
+            width={"96px"}
+            textAlign="center"
+          >
+            NFT MARKETPLACE
+          </Text>
         </Heading>
       </Flex>
 

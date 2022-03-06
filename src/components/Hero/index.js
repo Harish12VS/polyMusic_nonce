@@ -17,7 +17,8 @@ const Hero = () => {
             fontWeight="black"
             lineHeight="1.2"
             letterSpacing="tight"
-            bg="linear-gradient(99.74deg, #06DBAC 5.23%, #BD00FF 92.7%)"
+            // bg="linear-gradient(99.74deg, #06DBAC 5.23%, #BD00FF 92.7%)"
+            bg="linear-gradient(99.74deg,#2082e9 5.23%,#9900ff 92.7%)"
             bgClip="text"
           >
             Create, Sell &<br />
@@ -26,8 +27,8 @@ const Hero = () => {
             Creative NFT{" "}
           </Heading>
           <Text fontWeight="medium">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Aspernatur, facilis? Recusandae
+            Poly Music NFT is the world's first and largest NFT marketplace
+            based on Polygon Network.
           </Text>
         </Stack>
       </GridItem>

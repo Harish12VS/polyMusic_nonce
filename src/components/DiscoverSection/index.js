@@ -1,118 +1,79 @@
-import {
-  Box,
-  SimpleGrid,
-  Text,
-  Stack,
-  Heading,
-  Image,
-  Button,
-  ButtonGroup,
-  Grid
-} from "@chakra-ui/react";
-import { FiPlay } from "react-icons/fi";
-import CardOne from "../../assets/card-one.png";
+import { Box, SimpleGrid, Heading } from "@chakra-ui/react";
+import { MusicCard } from "../index";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Web3Modal from "web3modal";
+import { nftaddress, nftmarketaddress } from "../../config";
+import Market from "../../contracts/NFTMarket.json";
+import NFT from "../../contracts/NFT.json";
 
-const MusicCard = ({ title, username }) => {
-  return (
-    <Stack
-      align="center"
-      justify="space-between"
-      color={"white"}
-      border="1.5px solid white"
-      h="400px"
-      w="300px"
-      position="relative"
-      as="flex"
-    >
-      <Box
-        w="300px"
-        h="243px"
-        mt={-10}
-        mr={-10}
-        p={1.5}
-        bg="linear-gradient(99.74deg, #06DBAC 5.23%, #BD00FF 92.7%)"
-      >
-        <Image src={CardOne} w="100%" maxH="100%" />
-      </Box>
-      <Stack p={6} w="100%" spacing={4}>
-        <SimpleGrid columns={2} justifyContent="space-between" gap={6}>
-          <Box spacing={0}>
-            <Text
-              as="h6"
-              fontWeight="bold"
-              letterSpacing="tighter"
-              color="whiteAlpha.600"
-              fontSize="sm"
-            >
-              {username}
-            </Text>
-            <Text
-              as="h5"
-              fontWeight="bold"
-              fontSize="lg"
-              letterSpacing="tighter"
-              isTruncated
-              title={title}
-            >
-              {title}
-            </Text>
-          </Box>
-          <Box spacing={0} textAlign="right">
-            <Text
-              as="h6"
-              fontWeight="bold"
-              letterSpacing="tighter"
-              color="whiteAlpha.600"
-              fontSize="sm"
-            >
-              Current Bid
-            </Text>
-            <Text
-              as="h5"
-              fontWeight="bold"
-              fontSize="lg"
-              letterSpacing="tighter"
-              isTruncated
-              title={title}
-            >
-              {title}
-            </Text>
-          </Box>
-        </SimpleGrid>
+let rpcEndpoint = null;
 
-        <ButtonGroup justifyContent="space-between" as="flex">
-          <Button
-            rightIcon={<FiPlay />}
-            variant="outline"
-            rounded={"full"}
-            fontSize="sm"
-            _hover={{
-              color: "#06DBAC",
-              borderColor: "#06DBAC"
-            }}
-          >
-            Play Now
-          </Button>
-          <Button
-            bg="linear-gradient(99.74deg, #06DBAC 5.23%, #BD00FF 92.7%)"
-            textTransform="uppercase"
-            rounded={"full"}
-            fontWeight="bold"
-            letterSpacing="tighter"
-            _hover={{
-              bg: "linear-gradient(99.74deg, #BD00FF 5.23%, #06DBAC 92.7%)"
-            }}
-            minW="100px"
-          >
-            Buy NFT
-          </Button>
-        </ButtonGroup>
-      </Stack>
-    </Stack>
-  );
-};
+if (process.env.REACT_PUBLIC_WORKSPACE_URL) {
+  rpcEndpoint = process.env.REACT_PUBLIC_WORKSPACE_URL;
+}
 
 export default function DiscoverSection() {
+  const [NFTs, setNFTs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadNFTs();
+  }, []);
+
+  async function loadNFTs() {
+    const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint);
+    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider);
+    const marketContract = new ethers.Contract(
+      nftmarketaddress,
+      Market.abi,
+      provider
+    );
+    const data = await marketContract.fetchMarketItems();
+
+    const items = await Promise.all(
+      data.map(async (i) => {
+        const tokenUri = await tokenContract.tokenURI(i.tokenId);
+        const meta = await axios.get(tokenUri);
+        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          itemId: i.itemId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.data.image,
+          name: meta.data.name,
+          description: meta.data.description
+        };
+        return item;
+      })
+    );
+    setNFTs(items);
+    setLoading(false);
+  }
+  async function buyNft(nft) {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer);
+
+    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+    const transaction = await contract.createMarketSale(
+      nftaddress,
+      nft.itemId,
+      {
+        value: price
+      }
+    );
+    await transaction.wait();
+    loadNFTs();
+  }
+
+  if (!loading || NFTs.length === 0)
+    return <h1 className="py-10 px-20 text-3xl">No NFTs listed</h1>;
+
   return (
     <Box py={32}>
       <Heading
@@ -123,19 +84,23 @@ export default function DiscoverSection() {
         mb={28}
         textAlign="center"
       >
-        Discover Music NFT
+        Discover Polygons Music NFTs
       </Heading>
       <SimpleGrid
         gridTemplateColumns="repeat(3,300px)"
         justifyContent="space-between"
         rowGap={28}
       >
+        {NFTs.map((nft, ind) => (
+          <MusicCard key={ind} title={nft.name} username={nft.owner} />
+        ))}
+        {/* 
         <MusicCard title={"Heart & Sol"} username="@arvind" />
         <MusicCard title={"Yaaro athu"} username="@arif" />
         <MusicCard title={"Hey Sinamika"} username="@harish" />
         <MusicCard title={"Uyirin Uyirae"} username="@arvind" />
         <MusicCard title={"Hello beats"} username="@arif" />
-        <MusicCard title={"Lofi beats"} username="@harish" />
+        <MusicCard title={"Lofi beats"} username="@harish" /> */}
       </SimpleGrid>
     </Box>
   );
