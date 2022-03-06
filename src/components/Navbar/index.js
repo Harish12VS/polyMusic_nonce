@@ -6,14 +6,106 @@ import {
   Flex,
   Text,
   Button,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
+import { ethers } from "ethers";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Web3Modal from "web3modal";
+import { nftmarketaddress, nftaddress } from "../../config";
+import Market from "../../contracts/NFTMarket.json";
+import NFT from "../../contracts/NFT.json";
+import { Footer, MusicCard } from "../../components";
+import { SimpleGrid } from "@chakra-ui/react";
 
 const Navbar = (props) => {
+  let connectedAddress = "";
+  const [address, setAddress] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleToggle = () => (isOpen ? onClose() : onOpen());
+
+  useEffect(() => {
+    // loadNFTs()
+  }, []);
+
+  async function loadNFTs() {
+    const web3Modal = new Web3Modal({
+      network: "mainnet",
+      cacheProvider: true,
+    });
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    let connectedAddress = connection.selectedAddress;
+    if (connectedAddress) {
+      setAddress(connectedAddress);
+    } else {
+      console.log("Wallet Not connected");
+    }
+
+    console.log(connection.selectedAddress, provider, signer);
+
+    const marketContract = new ethers.Contract(
+      nftmarketaddress,
+      Market.abi,
+      signer
+    );
+    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider);
+    const data = await marketContract.fetchMyNFTs();
+
+    const items = await Promise.all(
+      data.map(async (i) => {
+        const tokenUri = await tokenContract.tokenURI(i.tokenId);
+        const meta = await axios.get(tokenUri);
+        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: i.tokenId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.data.image,
+        };
+        return item;
+      })
+    );
+  }
+
+  const showButton = () => {
+    if (address) {
+      console.log(address);
+      return (
+        <Button
+          variant="solid"
+          bg="linear-gradient(214.02deg, #B75CFF 6.04%, #671AE4 92.95%)"
+          paddingX={5}
+          paddingY={2.5}
+          _hover={{
+            bg: "linear-gradient(214.02deg, #671AE4 6.04%, #B75CFF 92.95%)",
+          }}
+        >
+          <h1> {address}</h1>
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          onClick={loadNFTs}
+          variant="solid"
+          bg="linear-gradient(214.02deg, #B75CFF 6.04%, #671AE4 92.95%)"
+          paddingX={5}
+          paddingY={2.5}
+          _hover={{
+            bg: "linear-gradient(214.02deg, #671AE4 6.04%, #B75CFF 92.95%)",
+          }}
+        >
+          Connect Wallet
+        </Button>
+      );
+    }
+  };
 
   return (
     <Flex
@@ -79,17 +171,7 @@ const Navbar = (props) => {
         display={{ base: isOpen ? "block" : "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
-        <Button
-          variant="solid"
-          bg="linear-gradient(214.02deg, #B75CFF 6.04%, #671AE4 92.95%)"
-          paddingX={5}
-          paddingY={2.5}
-          _hover={{
-            bg: "linear-gradient(214.02deg, #671AE4 6.04%, #B75CFF 92.95%)"
-          }}
-        >
-          Connect Wallet
-        </Button>
+        {showButton()}
       </Box>
     </Flex>
   );

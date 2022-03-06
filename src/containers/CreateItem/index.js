@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ethers } from "ethers";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 import Web3Modal from "web3modal";
 import { nftaddress, nftmarketaddress } from "../../config";
 import NFT from "../../contracts/NFT.json";
@@ -18,27 +19,29 @@ import {
   FormControl,
   FormLabel,
   Textarea,
-  Heading
+  Heading,
 } from "@chakra-ui/react";
 import { Footer } from "../../components";
 
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
 export default function CreateItem() {
+  const [error, setError] = useState(null);
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, updateFormInput] = useState({
     price: "",
     name: "",
-    description: ""
+    description: "",
   });
   const [resize, setResize] = useState("none");
   const router = useNavigate();
+  const toast = useToast();
 
   async function onChange(e) {
     const file = e.target.files[0];
     try {
       const added = await client.add(file, {
-        progress: (prog) => console.log(`received: ${prog}`)
+        progress: (prog) => console.log(`received: ${prog}`),
       });
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       setFileUrl(url);
@@ -54,7 +57,7 @@ export default function CreateItem() {
     const data = JSON.stringify({
       name,
       description,
-      image: fileUrl
+      image: fileUrl,
     });
     try {
       const added = await client.add(data);
@@ -74,7 +77,14 @@ export default function CreateItem() {
 
     /* next, create the item */
     let contract = new ethers.Contract(nftaddress, NFT.abi, signer);
-    let transaction = await contract.createToken(url);
+    let transaction;
+    try {
+      transaction = await contract.createToken(url);
+    } catch (e) {
+      setError(e.message);
+      showToast();
+    }
+
     let tx = await transaction.wait();
     let event = tx.events[0];
     let value = event.args[2];
@@ -88,11 +98,22 @@ export default function CreateItem() {
     listingPrice = listingPrice.toString();
 
     transaction = await contract.createMarketItem(nftaddress, tokenId, price, {
-      value: listingPrice
+      value: listingPrice,
     });
     await transaction.wait();
-    router.push("/");
+    router.push("/my-assets");
   }
+
+  const showToast = () => {
+    console.log(error);
+    toast({
+      title: "Error",
+      description: error,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    });
+  };
 
   return (
     <>
@@ -127,11 +148,11 @@ export default function CreateItem() {
                     bg="black"
                     border={0}
                     _focus={{
-                      border: "2px solid #9900ff"
+                      border: "2px solid #9900ff",
                     }}
                     _placeholder={{
                       color: "gray.500",
-                      fontSize: "sm"
+                      fontSize: "sm",
                     }}
                     placeholder="Asset Name"
                     onChange={(e) =>
@@ -149,17 +170,17 @@ export default function CreateItem() {
                     bg="black"
                     border={0}
                     _focus={{
-                      border: "2px solid #9900ff"
+                      border: "2px solid #9900ff",
                     }}
                     _placeholder={{
-                      color: "gray.500"
+                      color: "gray.500",
                     }}
                     placeholder="Asset Description"
                     className="mt-2 border rounded p-4"
                     onChange={(e) =>
                       updateFormInput({
                         ...formInput,
-                        description: e.target.value
+                        description: e.target.value,
                       })
                     }
                     resize={resize}
@@ -174,10 +195,10 @@ export default function CreateItem() {
                     bg="black"
                     border={0}
                     _focus={{
-                      border: "2px solid #9900ff"
+                      border: "2px solid #9900ff",
                     }}
                     _placeholder={{
-                      color: "gray.500"
+                      color: "gray.500",
                     }}
                     placeholder="Asset Price in Eth"
                     className="mt-2 border rounded p-4"
@@ -197,6 +218,8 @@ export default function CreateItem() {
                   <Image className="rounded mt-4" width="350" src={fileUrl} />
                 )}
 
+                {/* {showIfError()} */}
+
                 <Button
                   mt={8}
                   onClick={createMarket}
@@ -205,7 +228,7 @@ export default function CreateItem() {
                   fontWeight="bold"
                   size="lg"
                   _hover={{
-                    bg: "linear-gradient(99.74deg,#9900ff 5.23%,#2082e9 92.7%)"
+                    bg: "linear-gradient(99.74deg,#9900ff 5.23%,#2082e9 92.7%)",
                   }}
                 >
                   Create Digital Asset
